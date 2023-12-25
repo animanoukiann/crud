@@ -13,7 +13,10 @@ def get_players():
 def add_player():
     request_form = request.form.to_dict()
     last_id = db.session.query(func.max(Player.id)).scalar() or 0
+    squad_n = db.session.query(func.max(Achievements.squad_n)).scalar() or 0
     id = last_id + 1
+    prfrmanc_id = id
+
     new_player = Player(
         id          = id,
         name        = request_form['name'],
@@ -24,6 +27,7 @@ def add_player():
         )
     new_achievements = Achievements(
         id          = new_player.id,
+        squad_n     = squad_n,
         ballon_dor  = request_form['ballon_dor'],
         champ_liga  = request_form['champ_liga'],
         eurp_liga   = request_form['eurp_liga'],
@@ -32,6 +36,7 @@ def add_player():
     )
     new_statistics = Statistics(
         id          = new_player.id,
+        prfrmanc_id = prfrmanc_id,
         goals       = request_form['goals'],
         assists     = request_form['assists'],
         yellow_c    = request_form['yellow_c'],

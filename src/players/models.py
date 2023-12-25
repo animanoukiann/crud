@@ -20,6 +20,7 @@ class Achievements(db.Model):
     __tablename__ = 'achievements'
 
     id          = db.Column(db.Integer, ForeignKey('player.id'))
+    squad_n     = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
     ballon_dor  = db.Column(db.Integer)
     champ_liga  = db.Column(db.Integer)
     eurp_liga   = db.Column(db.Integer)
@@ -30,6 +31,7 @@ class Statistics(db.Model):
     __tablename__ = 'statistics'
 
     id          = db.Column(db.Integer, ForeignKey('player.id'))
+    prfrmanc_id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
     goals       = db.Column(db.Integer)
     assists     = db.Column(db.Integer)
     yellow_c    = db.Column(db.Integer)
