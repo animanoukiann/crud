@@ -16,6 +16,11 @@ class Player(db.Model):
     achievements    = relationship('Achievements', backref='player', lazy=True)
     statistics      = relationship('Statistics', backref='player', lazy=True)
 
+    def toDict(self):
+        column_attrs = inspect(self).mapper.column_attrs
+        return {c.key: getattr(self, c.key) for c in column_attrs}
+
+
 class Achievements(db.Model):
     __tablename__ = 'achievements'
 
@@ -26,6 +31,11 @@ class Achievements(db.Model):
     eurp_liga   = db.Column(db.Integer)
     cp_del_rey  = db.Column(db.Integer)
     spc_de_esp  = db.Column(db.Integer)
+
+    def toDict(self):
+        column_attrs = inspect(self).mapper.column_attrs
+        return {c.key: getattr(self, c.key) for c in column_attrs}
+
 
 class Statistics(db.Model):
     __tablename__ = 'statistics'
@@ -38,12 +48,12 @@ class Statistics(db.Model):
     red_c       = db.Column(db.Integer)
     injury      = db.Column(db.String(255))
 
-@validates('name', 'nationality', 'position', 'age', 'transfer_y')
-def empty_string_to_null(self, key, value):
-    if value == '':
-        return None
-    return value
+    @validates('name', 'nationality', 'position', 'age', 'transfer_y')
+    def empty_string_to_null(self, key, value):
+        if value == '':
+            return None
+        return value
 
-def to_dict(self):
-    column_attrs = inspect(self).mapper.column_attrs
-    return {c.key: getattr(self, c.key) for c in column_attrs}
+    def toDict(self):
+        column_attrs = inspect(self).mapper.column_attrs
+        return {c.key: getattr(self, c.key) for c in column_attrs}

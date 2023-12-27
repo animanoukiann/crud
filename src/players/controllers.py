@@ -7,7 +7,7 @@ def get_players():
     player = Player.query.all()
     response = []
     for i in player:
-        response.append(player.to_dict())
+        response.append(i.toDict())
     return jsonify(response)
 
 def add_player():
